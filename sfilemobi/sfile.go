@@ -80,6 +80,7 @@ func sfile(url string) (string, string, error) {
 
 func main() {
 	var url string
+	fmt.Print("Sfile Link Generator")
 	fmt.Print("Enter URL: ")
 	fmt.Scanln(&url)
 
