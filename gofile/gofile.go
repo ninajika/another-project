@@ -29,31 +29,31 @@ func gofile(link string) (string, string, error) {
 	// make a guest account
 	resp, err := client.R().Post("https://api.gofile.io/accounts")
 	if err != nil {
-		return "guest account changed again", "", err
+		return "", "", fmt.Errorf("guest account error: %v", err)
 	}
 
 	defer resp.Body.Close()
 
 	var response map[string]interface{}
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
-		return "guest account changed again", "", err
+		return "", "", fmt.Errorf("guest account changed again: %v", err)
 	}
 
 	// just get the "token" value
 	data, ok := response["data"].(map[string]interface{})
 	if !ok {
-		return "Data not found in response", "", errors.New("data not found in guest account, maybe something goes wrong")
+		return "", "", errors.New("data not found in guest account, maybe something goes wrong")
 	}
 
 	tokenValue, tokenExists := data["token"].(string)
 	if !tokenExists {
-		return "Token not found in response", "", errors.New("token not found, maybe something goes wrong")
+		return "", "", errors.New("token not found, maybe something goes wrong")
 	}
 
 	// for getting id url
 	parsedURL, err := url.Parse(link)
 	if err != nil {
-		return "Your file is invalid", "", err
+		return "", "", fmt.Errorf("Your file is invalid: %v", err)
 	}
 
 	idUrl := path.Base(parsedURL.Path)
@@ -61,7 +61,7 @@ func gofile(link string) (string, string, error) {
 	// for getting websiteToken
 	resp2, err := client.R().Get("https://gofile.io/dist/js/alljs.js")
 	if err != nil {
-		return "WebsiteToken Getter Broken", "", err
+		return "", "", fmt.Errorf("WebsiteToken Getter Broken: %v", err)
 	}
 
 	defer resp2.Body.Close()
@@ -126,6 +126,7 @@ func gofile(link string) (string, string, error) {
 
 func main() {
 	var url string
+	fmt.Print("Gofile Link Generator")
 	fmt.Print("Enter URL: ")
 	fmt.Scanln(&url)
 
