@@ -53,7 +53,7 @@ func gofile(link string) (string, string, error) {
 	// for getting id url
 	parsedURL, err := url.Parse(link)
 	if err != nil {
-		return "", "", fmt.Errorf("Your file is invalid: %v", err)
+		return "", "", fmt.Errorf("your file is invalid: %v", err)
 	}
 
 	idUrl := path.Base(parsedURL.Path)
@@ -61,7 +61,7 @@ func gofile(link string) (string, string, error) {
 	// for getting websiteToken
 	resp2, err := client.R().Get("https://gofile.io/dist/js/alljs.js")
 	if err != nil {
-		return "", "", fmt.Errorf("WebsiteToken Getter Broken: %v", err)
+		return "", "", fmt.Errorf("websiteToken Getter Broken: %v", err)
 	}
 
 	defer resp2.Body.Close()
@@ -86,7 +86,7 @@ func gofile(link string) (string, string, error) {
 		SetHeader("referer", "https://gofile.io/").
 		Get(url_dl)
 	if err != nil {
-		return "Gofile Changed again", "", err
+		return "", "", fmt.Errorf("gofile Changed again: %v", err)
 	}
 
 	defer resp3.Body.Close()
@@ -118,7 +118,7 @@ func gofile(link string) (string, string, error) {
 	return file_name, link_dl, nil
 
 	// body, err := io.ReadAll(resp.Body) // read the response body
-	// if err != nil {W
+	// if err != nil {
 	// 	return "", err // return an empty string and the error
 	// }
 	// return string(body), err
