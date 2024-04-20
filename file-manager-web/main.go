@@ -96,7 +96,7 @@ func ContainsString(slice []string, value string) bool {
 }
 
 // this for prevent people to download system files and access private folders
-var skipName = []string{"desktop.ini", "thumbs.db", "$RECYCLE.BIN", "System Volume Information", "$WinREAgent", "hiberfil.sys", "pagefile.sys", "swapfile.sys", "Documents and Settings", "DumpStack.log.tmp", "$Recycle.Bin"}
+var skipName = []string{"desktop.ini", "System32", "SysWOW64", "Recovery", "thumbs.db", "$RECYCLE.BIN", "System Volume Information", "$WinREAgent", "hiberfil.sys", "pagefile.sys", "swapfile.sys", "Documents and Settings", "DumpStack.log.tmp", "$Recycle.Bin"}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	filePath := r.URL.Query().Get("file")
@@ -232,6 +232,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 								return '%5B';
 							case ']':
 								return '%5D';
+							case '+':
+								return '%2B';
 							default:
 								return match;
 						}
