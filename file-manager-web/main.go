@@ -223,6 +223,21 @@ func handler(w http.ResponseWriter, r *http.Request) {
 				}
 			</style>
 				<script>
+
+				// Function to toggle the media element
+				// this needed to prevent people spamming the media that who cause the server to hangs
+				// and shutdown himself because due to run out of memory so i made this to prevent that that will detect if the media is already playing
+				// and want play something it will stop the playing and play the new one 
+				// yeah clever stuff even though people will abuse that atleast they will be prevented
+
+				// thanks to https://stackoverflow.com/a/72419127
+				document.addEventListener('play', (event) => {
+					const mediaElements = [...document.querySelectorAll('audio, video')];
+					
+					mediaElements.forEach((media) => media !== event.target && media.pause());
+				}, true);
+				
+
 				function replaceSpecialCharacters(str) {
 					return str.replace(/[#\[\]]/g, function(match) {
 						switch (match) {
